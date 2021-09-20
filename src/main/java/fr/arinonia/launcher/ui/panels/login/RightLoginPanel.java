@@ -1,16 +1,16 @@
 package fr.arinonia.launcher.ui.panels.login;
 
-import com.azuriom.azauth.AuthenticationException;
-import com.azuriom.azauth.AzAuthenticator;
+import com.azuriom.azauth.model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import fr.arinonia.launcher.Main;
 import fr.arinonia.launcher.ui.UiManager;
 import fr.arinonia.launcher.ui.panel.Panel;
+import fr.arinonia.launcher.ui.panels.home.HomePanel;
 import fr.arinonia.launcher.utils.Constants;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
@@ -104,15 +104,15 @@ public class RightLoginPanel extends Panel {
         connectButton.setCursor(Cursor.HAND);
         connectButton.setOnMouseClicked(e -> {
             new Thread(() -> {
-                String username = usernameField.getText();
-                String password = passwordField.getText();
+                final String username = usernameField.getText();
+                final String password = passwordField.getText();
 
-                AzAuthenticator az = new AzAuthenticator(Constants.AUTH_URL);
-                try {
-                    az.authenticate(username, password);
-                    System.out.println("good");
-                } catch (AuthenticationException | IOException ex) {
-                    ex.printStackTrace();
+                if (this.uiManager.getLauncher().getAuthManager().checkField(username, password, this.uiManager)) {
+                    final  User user = this.uiManager.getLauncher().getAuthManager().authenticate(username, password, this.uiManager);
+                    if (user != null) {
+                        this.uiManager.getLauncher().getLauncherConfiguration().set("accessToken", user.getAccessToken());
+                        Platform.runLater(() -> this.uiManager.showPanel((GridPane) this.layout.getParent().getParent(), new HomePanel(this.uiManager, user)));
+                    }
                 }
             }).start();
         });

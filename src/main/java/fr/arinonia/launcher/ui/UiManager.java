@@ -56,4 +56,8 @@ public class UiManager {
     public Stage getStage() {
         return this.stage;
     }
+
+    public Launcher getLauncher() {
+        return this.launcher;
+    }
 }
