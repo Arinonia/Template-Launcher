@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Cascadia Mono Regular';
+    src: url('../fonts/CascadiaMono.ttf');
+}
+
+.label {
+    -fx-font-family: 'Cascadia Mono Regular';
+}
+
+.button .text {
+    -fx-font-family: 'Cascadia Mono Regular';
+}
+/*.input-field {
+    -fx-prompt-text-fill: #a1a1a1;
+    -jfx-unfocus-color : #bcbcbc;
+    -fx-background-repeat : no-repeat;
+    -fx-background-position: right center;
+    -fx-padding : 0 -8 4 0;
+    -fx-text-fill : #3fc9ee;
+}*/
