@@ -1,1 +1,1 @@
-# Launcher Template
+# Launcher Template (dead project)
